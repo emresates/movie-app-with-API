@@ -1,0 +1,234 @@
+@import url("https://fonts.googleapis.com/css2?family=Gluten:wght@100;200;300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poor+Story&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none; }
+
+html {
+  font-size: 62.5%; }
+
+body {
+  width: 100%;
+  height: 100vh;
+  background-color: #070e14; }
+
+header {
+  padding: 2rem 10rem 2rem 10rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 70px;
+  border-bottom: 2px dashed #cdcdcd; }
+  header h1 {
+    font-size: 5rem;
+    font-family: "Gluten", cursive;
+    letter-spacing: 2px;
+    color: #d3cea2; }
+  header .form {
+    position: relative; }
+    header .form label {
+      position: absolute;
+      font-size: 20px; }
+    header .form .search {
+      width: 40px;
+      height: 40px;
+      padding: 5px;
+      border-radius: 50px;
+      outline: none;
+      border: none;
+      font-size: 2rem;
+      background-color: transparent;
+      border: 3px solid #d3cea2;
+      padding: 10px;
+      color: #cdcdcd;
+      transition: width 0.5s ease-in-out; }
+      header .form .search:focus {
+        width: 300px; }
+      header .form .search:not(:focus) {
+        color: transparent; }
+    header .form::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 4px;
+      bottom: 0;
+      right: -10px;
+      transform: rotate(30deg);
+      background-color: #d3cea2; }
+    header .form .search:focus .form::after {
+      width: 100px; }
+
+.genres {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  position: fixed;
+  text-align: center;
+  margin-top: 10rem;
+  width: 20%;
+  height: 100%;
+  padding: 20px; }
+  .genres h2 {
+    width: 100%;
+    height: 30px;
+    font-size: 3rem;
+    text-align: center;
+    color: #cdcdcd;
+    margin-bottom: 30px; }
+  .genres .genre {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: auto;
+    height: 30px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: #d3cea2;
+    font-size: 2rem;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s; }
+
+.active.genre {
+  background-color: #ff0606;
+  color: #cdcdcd; }
+
+main {
+  margin: 0 0 0 30rem;
+  width: 80%;
+  padding: 20px 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  flex-direction: row; }
+  main .found {
+    font-size: 10rem;
+    color: #cdcdcd;
+    margin-top: 100px; }
+  main .movie {
+    margin: 10px 20px 20px 20px;
+    width: 20vw;
+    height: 25vw;
+    position: relative;
+    color: #cdcdcd;
+    border-radius: 5px;
+    overflow: hidden; }
+    main .movie img {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 5px; }
+    main .movie .info {
+      width: 100%;
+      position: absolute;
+      display: flex;
+      flex-direction: row;
+      top: 0;
+      left: 0;
+      padding: 20px;
+      justify-content: space-between;
+      transform: translateY(-100px);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 1s ease; }
+      main .movie .info h3 {
+        width: 80%;
+        font-family: "Gluten";
+        font-size: 3rem; }
+      main .movie .info span {
+        display: flex;
+        position: absolute;
+        top: 0;
+        right: 0;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        width: 20%;
+        min-width: 50px;
+        min-height: 50px;
+        font-size: 2rem;
+        font-weight: bolder;
+        background-color: black;
+        border-bottom-left-radius: 10px; }
+      main .movie .info .green {
+        color: green; }
+      main .movie .info .red {
+        color: red; }
+      main .movie .info .yellow {
+        color: yellow; }
+    main .movie .overview {
+      opacity: 0;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 10px;
+      font-family: "Poor Story", cursive;
+      font-size: 2rem;
+      background: rgba(0, 0, 0, 0.5);
+      transition: opacity 0.5s; }
+    main .movie:hover .info {
+      transform: translateY(0px);
+      opacity: 1; }
+    main .movie:hover .overview {
+      opacity: 1; }
+
+.pagination {
+  display: flex;
+  width: 100%;
+  height: 100px;
+  padding-left: 20rem;
+  justify-content: center;
+  align-items: center;
+  text-align: center; }
+  .pagination .now {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    padding: 10px;
+    background-color: transparent;
+    border: 1px solid #cdcdcd;
+    font-size: 2.5rem;
+    color: #cdcdcd;
+    user-select: none; }
+  .pagination button {
+    position: relative;
+    text-align: center;
+    margin: 20px;
+    padding: 10px;
+    background-color: transparent;
+    color: #cdcdcd;
+    border: 1px solid #cdcdcd;
+    font-size: 1.8rem;
+    transition: 0.5s;
+    overflow: hidden; }
+    .pagination button:hover {
+      background-color: #cdcdcd;
+      color: #070e14;
+      cursor: pointer; }
+    .pagination button i {
+      transition: transform 0.5s; }
+  .pagination button.disabled {
+    cursor: not-allowed;
+    color: gray;
+    border: 1px solid gray; }
+    .pagination button.disabled:hover {
+      background-color: transparent; }
+      .pagination button.disabled:hover i {
+        transform: translateX(0); }
+  .pagination .next {
+    border-radius: 0px 20px 20px 0px; }
+    .pagination .next:hover i {
+      transform: translateX(50px); }
+  .pagination .prev {
+    border-radius: 20px 0 0 20px; }
+    .pagination .prev:hover i {
+      transform: translateX(-50px); }
+
+/*# sourceMappingURL=style.css.map */
