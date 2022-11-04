@@ -194,7 +194,8 @@ function showMovies(data) {
   main.innerHTML = "";
 
   data.forEach((movie) => {
-    const { title, release_date, poster_path, vote_average, overview } = movie;
+    const { title, release_date, poster_path, vote_average, overview, id } =
+      movie;
     vote = vote_average.toFixed(1); // for remove fraction
     const movieDOM = document.createElement("div");
     movieDOM.classList.add("movie");
@@ -205,8 +206,7 @@ function showMovies(data) {
             : "https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled-1150x647.png"
         } " alt="${title}">
 
-        <div class="info">
-            <h3>${release_date ? release_date : ""} </h3>
+        <div class="info">           
             <span class="${getColor(vote_average)}"><p>${vote}</p></span>
         </div>
 
@@ -215,10 +215,16 @@ function showMovies(data) {
           poster_path ? "" : title
         }</h2>
         ${overview}
+        <br/>
+        <button type="button" class="know-more" id="${id}"><i class="fa-solid fa-arrow-right"></i> Learn More <i class="fa-solid fa-arrow-left"></i></button>
         </div>
         `;
 
     main.appendChild(movieDOM);
+
+    document.getElementById(id).addEventListener("click", () => {
+      openNav(movie.id);
+    });
   });
 }
 
@@ -258,6 +264,7 @@ prev.addEventListener("click", () => {
   }
 });
 
+// Page Changes
 function pageCall(page) {
   let urlSplit = lastUrl.split("?");
   let queryParam = urlSplit[1].split("&");
@@ -273,4 +280,141 @@ function pageCall(page) {
     let url = urlSplit[0] + "?" + joinB;
     getMovies(url);
   }
+}
+
+// This function was made to display videos that are normally available on youtube
+// BUT there were problems with ads while importing youtube videos to the site
+// Thousands of error messages started appearing in the console
+// I didn't continue it either.
+
+// const overlayDOM = document.querySelector(".overlay .content");
+// console.log(overlayDOM);
+
+// function openNav(movie) {
+//   let id = movie.id;
+//   fetch(URL + "/movie/" + id + "/videos?api_key=" + KEY)
+//     .then((res) => res.json())
+//     .then((videoData) => {
+//       console.log(videoData);
+
+//       if (videoData) {
+//         document.getElementById("myNav").style.width = "100%";
+
+//         if (videoData.results.length > 0) {
+//           var embed = [];
+//           videoData.results.forEach((video) => {
+//             let { key, name, site } = video;
+
+//             if (site === "YouTube") {
+//               embed.push(`
+//               <iframe width="960" height="580" src="https://www.youtube.com/embed/${key}"
+//               title="${name}" class="embed" frameborder="0"
+//               allow="accelerometer; autoplay;
+//               clipboard-write; encrypted-media;
+//               gyroscope; picture-in-picture" allowfullscreen></iframe>
+//               `);
+//             }
+//             console.log(site);
+//           });
+//           overlayDOM.innerHTML = embed.join("");
+//           // activeVideo = 0;
+//           // showVideos();
+//         } else {
+//           overlayDOM.innerHTML = `<h1 class="found">No Results Found :(</h1>`;
+//         }
+//       }
+//     });
+// }
+
+async function movie_trailer(id) {
+  const resp = await fetch(URL + "/movie/" + id + "/videos?api_key=" + KEY);
+  const respData = await resp.json();
+  return respData.results[0].key;
+}
+
+const content = document.querySelector(".content");
+function openNav(movieID) {
+  fetch(URL + "/movie/" + movieID + "?api_key=" + KEY)
+    .then((res) => res.json())
+    .then((movieData) => {
+      console.log(movieData);
+      const {
+        poster_path,
+        title,
+        tagline,
+        spoken_languages,
+        runtime,
+        vote_average,
+        budget,
+        release_date,
+        genres,
+        overview,
+      } = movieData;
+      vote = vote_average.toFixed(1);
+      content.innerHTML = `
+      <div class="left">
+      <div class="poster-img">
+          <img src="${
+            poster_path
+              ? imgURL + poster_path
+              : "https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled-1150x647.png"
+          } " alt="${title}">
+      </div>
+      <div class="single-info">
+          <span>Add to favorites:</span>
+          <span class="heart">&#9829;</span>
+      </div>
+    </div>
+    <div class="right">
+      <h1>${title}</h1>
+      <h3>${tagline}</h3>
+      <div class="container">
+          <div class="info">
+              <span>Language:</span>
+              <span>${spoken_languages[0].name}</span>
+          </div>
+          <div class="info">
+              <span>Length:</span>
+              <span>${runtime} minutes</span>
+          </div>
+          <div class="info">
+              <span>Rate:</span>
+              <span>${vote} / 10</span>
+          </div>
+          <div class="info">
+              <span>Budget:</span>
+              <span>$ ${budget}</span>
+          </div>
+          <div class="info">
+              <span>Release Date:</span>
+              <span>${release_date}</span>
+          </div>
+      </div>
+      <div class="genre-movie">
+          <h2>Genres</h2>
+          <ul>
+          ${genres.map((e) => `<li>${e.name}</li>`).join("")}
+          </ul>
+      </div>
+      <div class="overview-inner">
+          <h2>Overview</h2>
+          <p>${overview}</p>
+      </div>
+      <div class="trailer">
+          <h2>Trailer</h2>
+          <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/Kmo8NLKkfcQ"
+              title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe> -->
+      </div>
+    </div>
+    
+      `;
+    });
+  document.getElementById("myNav").style.width = "100%";
+}
+
+function closeNav() {
+  document.getElementById("myNav").style.width = "0%";
+  content.innerHTML = ""
 }

@@ -117,7 +117,6 @@ main {
     height: 25vw;
     position: relative;
     color: #cdcdcd;
-    border-radius: 5px;
     overflow: hidden; }
     main .movie img {
       position: relative;
@@ -129,17 +128,19 @@ main {
       position: absolute;
       display: flex;
       flex-direction: row;
-      top: 0;
+      top: -1px;
       left: 0;
-      padding: 20px;
       justify-content: space-between;
       transform: translateY(-100px);
       opacity: 0;
       transition: transform 0.4s ease, opacity 1s ease; }
       main .movie .info h3 {
-        width: 80%;
+        width: 90%;
         font-family: "Gluten";
-        font-size: 3rem; }
+        font-size: 2rem;
+        color: #922525;
+        background-color: #070e14;
+        padding: 10px; }
       main .movie .info span {
         display: flex;
         position: absolute;
@@ -151,9 +152,9 @@ main {
         width: 20%;
         min-width: 50px;
         min-height: 50px;
-        font-size: 2rem;
+        font-size: 1.8rem;
         font-weight: bolder;
-        background-color: black;
+        background-color: #070e14;
         border-bottom-left-radius: 10px; }
       main .movie .info .green {
         color: green; }
@@ -169,13 +170,42 @@ main {
       padding: 10px;
       font-family: "Poor Story", cursive;
       font-size: 2rem;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.8);
       transition: opacity 0.5s; }
     main .movie:hover .info {
       transform: translateY(0px);
       opacity: 1; }
     main .movie:hover .overview {
       opacity: 1; }
+    main .movie .know-more {
+      width: 100%;
+      margin-top: 5px;
+      padding: 5px;
+      font-size: 1.5rem;
+      border-radius: 10px;
+      background-color: transparent;
+      border: 2px solid #d3cea2;
+      color: white;
+      letter-spacing: 3px;
+      font-weight: 100;
+      transition: border 0.3s;
+      cursor: pointer;
+      overflow: hidden; }
+      main .movie .know-more i {
+        transition: transform 1s ease;
+        color: red; }
+      main .movie .know-more .fa-arrow-right {
+        transform: translateX(-150px); }
+      main .movie .know-more .fa-arrow-left {
+        transform: translateX(150px); }
+      main .movie .know-more:hover {
+        color: red;
+        border: 2px solid white;
+        transition: color 0.2s 0.8s; }
+        main .movie .know-more:hover .fa-arrow-right {
+          transform: translateX(0px) rotateY(360deg); }
+        main .movie .know-more:hover .fa-arrow-left {
+          transform: translateX(0px) rotateY(360deg); }
 
 .pagination {
   display: flex;
@@ -230,5 +260,120 @@ main {
     border-radius: 20px 0 0 20px; }
     .pagination .prev:hover i {
       transform: translateX(-50px); }
+
+.overlay {
+  position: fixed;
+  height: 100%;
+  width: 0;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+  transition: 0.5s; }
+  .overlay .closebtn {
+    position: absolute;
+    display: block;
+    top: 5px;
+    right: 25px;
+    font-size: 50px;
+    color: #818181;
+    transition: 0.3s; }
+    .overlay .closebtn:hover, .overlay .closebtn:focus {
+      color: #f1f1f1;
+      transform: rotate(180deg) scale(1.5); }
+  .overlay .contentAll {
+    position: relative;
+    top: 2%;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+    margin-top: 30px; }
+    .overlay .contentAll .content {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      color: white; }
+      .overlay .contentAll .content .left {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        width: 40%;
+        padding: 20px;
+        align-items: center; }
+        .overlay .contentAll .content .left .poster-img {
+          width: 500px;
+          height: 700px;
+          overflow: hidden;
+          border-radius: 5px;
+          margin-bottom: 20px;
+          box-shadow: -2px -2px 3px black; }
+          .overlay .contentAll .content .left .poster-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; }
+        .overlay .contentAll .content .left .single-info {
+          font-size: 2rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin: .2rem 0;
+          user-select: none; }
+          .overlay .contentAll .content .left .single-info .heart {
+            font-size: 2rem;
+            margin-left: 10px;
+            cursor: pointer; }
+            .overlay .contentAll .content .left .single-info .heart:hover {
+              transform: scale(1.1); }
+            .overlay .contentAll .content .left .single-info .heart:active {
+              transform: scale(0.9); }
+      .overlay .contentAll .content .right {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        width: 60%; }
+        .overlay .contentAll .content .right h1 {
+          font-size: 5rem;
+          margin: 10px 10px 10px 0; }
+        .overlay .contentAll .content .right h3 {
+          margin: 10px 10px 10px 0;
+          font-size: 3rem; }
+        .overlay .contentAll .content .right .container {
+          width: 300px; }
+          .overlay .contentAll .content .right .container .info {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 10px 10px 0;
+            font-size: 2rem; }
+        .overlay .contentAll .content .right .genre-movie h2 {
+          font-size: 2.7rem; }
+        .overlay .contentAll .content .right .genre-movie ul {
+          font-size: 2rem; }
+          .overlay .contentAll .content .right .genre-movie ul li {
+            list-style: disc;
+            margin: 5px; }
+        .overlay .contentAll .content .right .overview-inner {
+          width: 100%;
+          overflow: hidden; }
+          .overlay .contentAll .content .right .overview-inner h2 {
+            font-size: 3rem;
+            margin: 10px 10px 10px 0; }
+          .overlay .contentAll .content .right .overview-inner p {
+            font-size: 2rem;
+            margin: 10px 10px 10px 0; }
+        .overlay .contentAll .content .right .trailer h2 {
+          font-size: 3rem;
+          margin: 10px 10px 10px 0; }
+
+@media screen and (max-height: 450px) {
+  .overlay a {
+    font-size: 20px; }
+
+  .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px; } }
 
 /*# sourceMappingURL=style.css.map */
