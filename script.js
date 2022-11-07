@@ -326,14 +326,24 @@ function pageCall(page) {
 //     });
 // }
 
-async function movie_trailer(id) {
-  const resp = await fetch(URL + "/movie/" + id + "/videos?api_key=" + KEY);
+async function get_movie_trailer(id) {
+  const resp = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${KEY}`
+  );
   const respData = await resp.json();
-  return respData.results[0].key;
+  // data = respData.results[0].key;
+  data = respData.results[0];  
+  if (data) {
+    return data.key;
+  } else {
+    return false;
+  }
 }
 
 const content = document.querySelector(".content");
-function openNav(movieID) {
+async function openNav(movieID) {
+  const movie_trailer = await get_movie_trailer(movieID);
+
   fetch(URL + "/movie/" + movieID + "?api_key=" + KEY)
     .then((res) => res.json())
     .then((movieData) => {
@@ -364,8 +374,8 @@ function openNav(movieID) {
           <span>Add to favorites:</span>
           <span class="heart">&#9829;</span>
       </div>
-    </div>
-    <div class="right">
+      </div>
+      <div class="right">
       <h1>${title}</h1>
       <h3>${tagline}</h3>
       <div class="container">
@@ -402,12 +412,12 @@ function openNav(movieID) {
       </div>
       <div class="trailer">
           <h2>Trailer</h2>
-          <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/Kmo8NLKkfcQ"
-              title="YouTube video player" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe> -->
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/${movie_trailer}" 
+          title="ERR_BLOCKED_BY_CLIENT Hatası Nasıl Düzeltilir"
+           frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
+           encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
-    </div>
+      </div>
     
       `;
     });
@@ -416,5 +426,5 @@ function openNav(movieID) {
 
 function closeNav() {
   document.getElementById("myNav").style.width = "0%";
-  content.innerHTML = ""
+  content.innerHTML = "";
 }
