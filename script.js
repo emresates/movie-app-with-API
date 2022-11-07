@@ -194,8 +194,7 @@ function showMovies(data) {
   main.innerHTML = "";
 
   data.forEach((movie) => {
-    const { title, release_date, poster_path, vote_average, overview, id } =
-      movie;
+    const { title, poster_path, vote_average, overview, id } = movie;
     vote = vote_average.toFixed(1); // for remove fraction
     const movieDOM = document.createElement("div");
     movieDOM.classList.add("movie");
@@ -282,61 +281,19 @@ function pageCall(page) {
   }
 }
 
-// This function was made to display videos that are normally available on youtube
-// BUT there were problems with ads while importing youtube videos to the site
-// Thousands of error messages started appearing in the console
-// I didn't continue it either.
-
-// const overlayDOM = document.querySelector(".overlay .content");
-// console.log(overlayDOM);
-
-// function openNav(movie) {
-//   let id = movie.id;
-//   fetch(URL + "/movie/" + id + "/videos?api_key=" + KEY)
-//     .then((res) => res.json())
-//     .then((videoData) => {
-//       console.log(videoData);
-
-//       if (videoData) {
-//         document.getElementById("myNav").style.width = "100%";
-
-//         if (videoData.results.length > 0) {
-//           var embed = [];
-//           videoData.results.forEach((video) => {
-//             let { key, name, site } = video;
-
-//             if (site === "YouTube") {
-//               embed.push(`
-//               <iframe width="960" height="580" src="https://www.youtube.com/embed/${key}"
-//               title="${name}" class="embed" frameborder="0"
-//               allow="accelerometer; autoplay;
-//               clipboard-write; encrypted-media;
-//               gyroscope; picture-in-picture" allowfullscreen></iframe>
-//               `);
-//             }
-//             console.log(site);
-//           });
-//           overlayDOM.innerHTML = embed.join("");
-//           // activeVideo = 0;
-//           // showVideos();
-//         } else {
-//           overlayDOM.innerHTML = `<h1 class="found">No Results Found :(</h1>`;
-//         }
-//       }
-//     });
-// }
-
 async function get_movie_trailer(id) {
   const resp = await fetch(
     `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${KEY}`
   );
   const respData = await resp.json();
   // data = respData.results[0].key;
-  data = respData.results[0];  
+  data = respData.results[0];
   if (data) {
-    return data.key;
+    return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${data.key}" 
+            frameborder="0" allow="accelerometer; 
+            encrypted-media; gyroscope; " allowfullscreen></iframe>`;
   } else {
-    return false;
+    return "<h1 style='color: red;'>Sorry No Results Found :(</h1>";
   }
 }
 
@@ -381,7 +338,9 @@ async function openNav(movieID) {
       <div class="container">
           <div class="info">
               <span>Language:</span>
-              <span>${spoken_languages[0].name}</span>
+              <span>${
+                spoken_languages[0] ? spoken_languages[0].name : "Unspecified"
+              }</span>
           </div>
           <div class="info">
               <span>Length:</span>
@@ -412,10 +371,8 @@ async function openNav(movieID) {
       </div>
       <div class="trailer">
           <h2>Trailer</h2>
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/${movie_trailer}" 
-          title="ERR_BLOCKED_BY_CLIENT Hatası Nasıl Düzeltilir"
-           frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
-           encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div>   ${movie_trailer}       </div>
+
       </div>
       </div>
     
