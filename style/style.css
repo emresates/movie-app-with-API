@@ -247,7 +247,9 @@ main {
   .pagination button.disabled {
     cursor: not-allowed;
     color: gray;
-    border: 1px solid gray; }
+    border: 1px solid gray;
+    pointer-events: none;
+    user-select: none; }
     .pagination button.disabled:hover {
       background-color: transparent; }
       .pagination button.disabled:hover i {

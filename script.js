@@ -112,25 +112,35 @@ function getMovies(url) {
         nextPage = currentPage + 1;
         prevPage = currentPage - 1;
         totalPages = data.total_pages;
+        // console.log(totalPages);
 
         // Page
         now.innerHTML = `${currentPage} 
         <span style="color:red; margin:0px 5px; font-weight:bold;">/</span> 
         ${totalPages}`;
 
-        if (currentPage <= 1) {
+        // If there is one page , it makes all buttons disabled
+        if (totalPages <= 1) {
           prev.classList.add("disabled");
-          next.classList.remove("disabled");
-        } else if (currentPage >= totalPages) {
-          prev.classList.remove("disabled");
           next.classList.add("disabled");
-        } else {
-          prev.classList.remove("disabled");
-          next.classList.remove("disabled");
         }
-
+        // If there is more than one, conditions are starting to work
+        if (totalPages >= 2) {
+          if (currentPage <= 1) {
+            prev.classList.add("disabled");
+            next.classList.remove("disabled");
+          } else if (currentPage >= totalPages) {
+            prev.classList.remove("disabled");
+            next.classList.add("disabled");
+          } else {
+            prev.classList.remove("disabled");
+            next.classList.remove("disabled");
+          }
+        }
         body.scrollIntoView({ behavior: "smooth" });
-      } else {
+      }
+      // Error command
+      else {
         main.innerHTML = `<h1 class="found">No Results Found :(</h1>`;
       }
     });
@@ -192,7 +202,6 @@ function highlight() {
 // Showing Movies
 function showMovies(data) {
   main.innerHTML = "";
-
   data.forEach((movie) => {
     const { title, poster_path, vote_average, overview, id } = movie;
     vote = vote_average.toFixed(1); // for remove fraction
@@ -220,7 +229,6 @@ function showMovies(data) {
         `;
 
     main.appendChild(movieDOM);
-
     document.getElementById(id).addEventListener("click", () => {
       openNav(movie.id);
     });
@@ -281,6 +289,7 @@ function pageCall(page) {
   }
 }
 
+// Movie's trailer function
 async function get_movie_trailer(id) {
   const resp = await fetch(
     `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${KEY}`

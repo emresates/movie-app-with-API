@@ -330,6 +330,8 @@ main {
     cursor: not-allowed;
     color: gray;
     border: 1px solid gray;
+    pointer-events: none;
+    user-select: none;
 
     &:hover {
       background-color: transparent;
